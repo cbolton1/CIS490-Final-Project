@@ -1,5 +1,6 @@
-import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 from sklearn.cluster import KMeans
 import seaborn as sns
 
@@ -21,11 +22,27 @@ data_norm = data_norm.where(pd.notna(data_norm),data_norm.mean(),axis="columns")
 
 print(data_norm.head(5))
 
+
 #K-Means Clustering
-kmeans = KMeans(n_clusters=3)
-y = kmeans.fit_predict(data_norm)
-data_norm['Cluster'] = y
+x = data_norm.iloc[:,[0,1,2,3]].values
+kmeans = KMeans(n_clusters = 5)
+y_kmeans = kmeans.fit_predict(x)
+print(y_kmeans)
+kmeans.cluster_centers_
 
-print(data_norm.head())
+
+Error =[]
+for i in range(1, 11):
+    kmeans = KMeans(n_clusters = i).fit(x)
+    kmeans.fit(x)
+    Error.append(kmeans.inertia_)
+
+plt.plot(range(1, 11), Error)
+plt.title('Elbow method')
+plt.xlabel('No of clusters')
+plt.ylabel('Error')
+plt.show()
 
 
+plt.scatter(x[:,0],x[:,1],c=y_kmeans,cmap='rainbow')
+plt.show()
