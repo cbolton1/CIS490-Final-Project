@@ -24,25 +24,27 @@ print(data_norm.head(5))
 
 
 #K-Means Clustering
-x = data_norm.iloc[:,[0,1,2,3]].values
-kmeans = KMeans(n_clusters = 5)
+x = data_norm.iloc[:,[1,2,3]].values
+kmeans = KMeans(n_clusters = 3) #number of clusters being used
 y_kmeans = kmeans.fit_predict(x)
 print(y_kmeans)
 kmeans.cluster_centers_
 
-
+#Test cluster numbers for error 1 through 13
 Error =[]
-for i in range(1, 11):
+for i in range(1, 13):
     kmeans = KMeans(n_clusters = i).fit(x)
     kmeans.fit(x)
     Error.append(kmeans.inertia_)
 
-plt.plot(range(1, 11), Error)
+#Plot elbow method results
+plt.plot(range(1, 13), Error)
 plt.title('Elbow method')
 plt.xlabel('No of clusters')
 plt.ylabel('Error')
 plt.show()
 
-
+#Plot kmeans results in scatterplot
+plt.figure(figsize=(20,20))
 plt.scatter(x[:,0],x[:,1],c=y_kmeans,cmap='rainbow')
 plt.show()
