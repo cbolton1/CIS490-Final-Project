@@ -34,6 +34,7 @@ test_set = data_norm.head(5000) #how much of the dataset is being used in order 
 
 
 #K-Means Clustering (4 features, mintemp, maxtemp, rainfall, evaporation)
+print("4 features, mintemp, maxtemp, rainfall, evaporation using 3 clusters")
 x = test_set.iloc[:,[1,2,3,4]].values
 kmeans = KMeans(init='random', n_init=10, n_clusters = 3) #number of clusters being used
 y_kmeans = kmeans.fit_predict(x)
@@ -72,15 +73,14 @@ plt.show()
 
 
 #Plot kmeans results in scatterplot
-plt.figure(figsize=(10,10))
+plt.figure(figsize=(10,5))
 plt.scatter(x[:,0],x[:,1],s=20,marker='o',c=y_kmeans,cmap='rainbow')
 plt.show()
 
 
 
-
-
 #K-Means Clustering (features Humidity9am, Humidity3pm, Pressure9am, Pressure3pm, RainTomorrow_No, RainTomorrow_Yes)
+print("(features Humidity9am, Humidity3pm, Pressure9am, Pressure3pm, RainTomorrow_No, RainTomorrow_Yes) using 3 clusters")
 x = test_set.iloc[:,[8,9,10,11,18,19]].values
 kmeans = KMeans(init='random', n_init=10, n_clusters = 3) #number of clusters being used
 y_kmeans = kmeans.fit_predict(x)
@@ -119,7 +119,7 @@ plt.show()
 
 
 #Plot kmeans results in scatterplot
-plt.figure(figsize=(10,10))
+plt.figure(figsize=(10,5))
 plt.scatter(x[:,0],x[:,1],s=20,marker='o',c=y_kmeans,cmap='rainbow')
 plt.show()
 
@@ -132,7 +132,9 @@ plt.show()
 
 
 
+
 #K-Means Clustering (largest set)
+print("Clustering using all available values and 2 clusters")
 x = test_set.iloc[:,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]].values
 kmeans = KMeans(init='random', n_init=10, n_clusters = 2) #number of clusters being used
 y_kmeans = kmeans.fit_predict(x)
@@ -171,6 +173,6 @@ plt.show()
 
 
 #Plot kmeans results in scatterplot
-plt.figure(figsize=(10,10))
+plt.figure(figsize=(10,5))
 plt.scatter(x[:,0],x[:,1],s=20,marker='o',c=y_kmeans,cmap='rainbow')
 plt.show()
