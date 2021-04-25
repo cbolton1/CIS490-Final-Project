@@ -30,7 +30,9 @@ col_maxes = data_norm.max()
 df_max = col_maxes.max()
 data_norm = (data_norm/df_max)
 
-# print(data_norm.head(5))
+
+print(data_norm.head(5))
+
 
 
 # how much of the dataset is being used in order to save time during testing
@@ -273,6 +275,7 @@ while repeat:
             distance_threshold=0, n_clusters=None, linkage='single')
         y_agg = agg.fit_predict(x)
 
+
         plt.title('Agglomerative Clustering Dendrogram')
         # plot the top levels of the dendrogram
         plot_dendrogram(agg, truncate_mode='level')
@@ -293,7 +296,4 @@ while repeat:
         repeat = False
     else :
         print("Invalid input.")
-
-
-
 
