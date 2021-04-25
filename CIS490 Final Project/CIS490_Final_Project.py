@@ -1,3 +1,15 @@
+# Final Project: Comparing Clustering Models Interpretations of Weather Data
+# Group 7 Lead: Chris Bolton
+# Team:         Surya Natuva
+#               Sandipan Roy
+#               Valerii Zhurylo
+# CIS 490 Machine Learning
+# Professor Hua Fang
+# 4/29/2021
+# This program can be used to compare the performance of KMeans clustering to Hierarchical clustering. The dataset used contains weather data from Australia.
+# To select a clustering method enter either 'k' or 'h' when prompted. After finishing, the program will offer the same prompt again.
+# To exit enter 'x' at the prompt.
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -6,18 +18,18 @@ from sklearn.preprocessing import StandardScaler, normalize
 from sklearn.metrics import silhouette_score
 import seaborn as sns
 from scipy.cluster.hierarchy import dendrogram
-
 from gap_statistic import OptimalK
 
 # Allow display of all columns for debugging
 pd.set_option('display.max_columns', None)
 
+### Data Prep ###
 # Read the dataset into a dataframe, remove most of the qualitative data
 df = pd.read_csv("weatherAUS.csv")
 df = df.drop(columns=['Date', 'Location', 'WindGustDir',
                       'WindDir9am', 'WindDir3pm'], inplace=False)
 
-# print(df.head(5))
+print(df.head(5))
 
 # Create dummy columns for categorical data
 data_norm = df.copy()
@@ -33,43 +45,42 @@ data_norm = (data_norm/df_max)
 
 print(data_norm.head(5))
 
-
-
 # how much of the dataset is being used in order to save time during testing
+# to run on entire dataset use len(data_norm) or 145461
 test_set = data_norm.head(5000)
 
-
+### Main Loop ###
 repeat = True
 while repeat:
     print("Please select an option from the list:")
     opt = input(" KMeans (k) \n Hierarchical (h) \n Exit (x) \n")
+    
     if opt == "k":
-        #K-Means Clustering (4 features, mintemp, maxtemp, rainfall, evaporation)
+        # K-Means Clustering (4 features, mintemp, maxtemp, rainfall, evaporation)
         print("4 features, mintemp, maxtemp, rainfall, evaporation using 3 clusters")
         x = test_set.iloc[:,[1,2,3,4]].values
-        kmeans = KMeans(init='random', n_init=10, n_clusters = 3) #number of clusters being used
+        kmeans = KMeans(init='random', n_init=10, n_clusters = 3) # number of clusters being used
         y_kmeans = kmeans.fit_predict(x)
         print(y_kmeans)
         kmeans.cluster_centers_
 
-        #Test cluster numbers for error 1 through kmax
-
+        # Test cluster numbers for error 2 through kmax
         kmax = 15
 
+        # Elbow Method
         Error =[]
         for i in range(2, kmax+1):
             kmeans = KMeans(n_clusters = i).fit(x)
             kmeans.fit(x)
             Error.append(kmeans.inertia_)
 
-        #Plot elbow method results
         plt.plot(range(2, kmax+1), Error)
         plt.title('Elbow method')
         plt.xlabel('No of clusters')
         plt.ylabel('Error')
         plt.show()
 
-        #Silhouette test
+        # Silhouette test
         sil =[]
         for k in range(2, kmax+1):
             kmeans = KMeans(n_clusters = k).fit(x)
@@ -83,39 +94,38 @@ while repeat:
         plt.show()
 
 
-        #Plot kmeans results in scatterplot
+        # Plot kmeans results in scatterplot
         plt.figure(figsize=(10,5))
         plt.scatter(x[:,0],x[:,1],s=20,marker='o',c=y_kmeans,cmap='rainbow')
         plt.show()
 
 
 
-        #K-Means Clustering (features Humidity9am, Humidity3pm, Pressure9am, Pressure3pm, RainTomorrow_No, RainTomorrow_Yes)
+        # K-Means Clustering (features Humidity9am, Humidity3pm, Pressure9am, Pressure3pm, RainTomorrow_No, RainTomorrow_Yes)
         print("(features Humidity9am, Humidity3pm, Pressure9am, Pressure3pm, RainTomorrow_No, RainTomorrow_Yes) using 3 clusters")
         x = test_set.iloc[:,[8,9,10,11,18,19]].values
-        kmeans = KMeans(init='random', n_init=10, n_clusters = 3) #number of clusters being used
+        kmeans = KMeans(init='random', n_init=10, n_clusters = 3) # number of clusters being used
         y_kmeans = kmeans.fit_predict(x)
         print(y_kmeans)
         kmeans.cluster_centers_
 
-        #Test cluster numbers for error 1 through kmax
-
+        # Test cluster numbers for error 2 through kmax
         kmax = 15
 
+        # Elbow Method
         Error =[]
         for i in range(2, kmax+1):
             kmeans = KMeans(n_clusters = i).fit(x)
             kmeans.fit(x)
             Error.append(kmeans.inertia_)
 
-        #Plot elbow method results
         plt.plot(range(2, kmax+1), Error)
         plt.title('Elbow method')
         plt.xlabel('No of clusters')
         plt.ylabel('Error')
         plt.show()
 
-        #Silhouette test
+        # Silhouette test
         sil =[]
         for k in range(2, kmax+1):
             kmeans = KMeans(n_clusters = k).fit(x)
@@ -129,7 +139,7 @@ while repeat:
         plt.show()
 
 
-        #Plot kmeans results in scatterplot
+        # Plot kmeans results in scatterplot
         plt.figure(figsize=(10,5))
         plt.scatter(x[:,0],x[:,1],s=20,marker='o',c=y_kmeans,cmap='rainbow')
         plt.show()
@@ -137,7 +147,7 @@ while repeat:
 
 
 
-        #K-Means Clustering (largest set)
+        # K-Means Clustering (largest set)
         print("Clustering using all available values and 2 clusters")
         x = test_set.iloc[:,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]].values
         kmeans = KMeans(init='random', n_init=10, n_clusters = 2) #number of clusters being used
@@ -145,24 +155,23 @@ while repeat:
         print(y_kmeans)
         kmeans.cluster_centers_
 
-        #Test cluster numbers for error 1 through kmax
-
+        # Test cluster numbers for error 2 through kmax
         kmax = 15
 
+        # Elbow Method
         Error =[]
         for i in range(2, kmax+1):
             kmeans = KMeans(n_clusters = i).fit(x)
             kmeans.fit(x)
             Error.append(kmeans.inertia_)
 
-        #Plot elbow method results
         plt.plot(range(2, kmax+1), Error)
         plt.title('Elbow method')
         plt.xlabel('No of clusters')
         plt.ylabel('Error')
         plt.show()
 
-        #Silhouette test
+        # Silhouette test
         sil =[]
         for k in range(2, kmax+1):
             kmeans = KMeans(n_clusters = k).fit(x)
@@ -176,10 +185,11 @@ while repeat:
         plt.show()
 
 
-        #Plot kmeans results in scatterplot
+        # Plot kmeans results in scatterplot
         plt.figure(figsize=(10,5))
         plt.scatter(x[:,0],x[:,1],s=20,marker='o',c=y_kmeans,cmap='rainbow')
         plt.show()
+
     elif opt == "h":
         # Hierarchical testing - Agglomerative
 
@@ -292,8 +302,10 @@ while repeat:
         y_agg = agg.fit_predict(x)
         plt.scatter(x[:, 0], x[:, 1], s=20, marker='o', c=y_agg, cmap='rainbow')
         plt.show()
+
     elif opt == "x":
         repeat = False
+    
     else :
         print("Invalid input.")
 
