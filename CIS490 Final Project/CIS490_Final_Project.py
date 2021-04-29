@@ -24,7 +24,7 @@ from gap_statistic import OptimalK
 pd.set_option('display.max_columns', None)
 
 ### Data Prep ###
-# Read the dataset into a dataframe, remove most of the qualitative data
+# Read the dataset into a dataframe, remove most of the categorical data
 df = pd.read_csv("weatherAUS.csv")
 df = df.drop(columns=['Date', 'Location', 'WindGustDir',
                       'WindDir9am', 'WindDir3pm'], inplace=False)
@@ -36,12 +36,11 @@ data_norm = df.copy()
 data_norm = pd.get_dummies(data_norm, columns=["RainToday", "RainTomorrow"])
 
 # Fill NaN values with means and normalize the data
-data_norm = data_norm.where(
-    pd.notna(data_norm), data_norm.mean(), axis="columns")
+data_norm = data_norm.where(pd.notna(data_norm), data_norm.mean(), axis="columns")
 col_maxes = data_norm.max()
 df_max = col_maxes.max()
 data_norm = (data_norm/df_max)
-
+print("data_norm")
 
 print(data_norm.head(5))
 
@@ -86,7 +85,7 @@ while repeat:
             kmeans = KMeans(n_clusters = k).fit(x)
             labels = kmeans.labels_
             sil.append(silhouette_score(x, labels, metric = 'euclidean'))
-
+            print('Silhouette Score at %d clusters: %.3f' % (k,sil[k-2]))
         plt.plot(range(2, kmax+1), sil)
         plt.title('Silhouette Method')
         plt.xlabel('No of clusters')
@@ -131,7 +130,7 @@ while repeat:
             kmeans = KMeans(n_clusters = k).fit(x)
             labels = kmeans.labels_
             sil.append(silhouette_score(x, labels, metric = 'euclidean'))
-
+            print('Silhouette Score at %d clusters: %.3f' % (k,sil[k-2]))
         plt.plot(range(2, kmax+1), sil)
         plt.title('Silhouette Method')
         plt.xlabel('No of clusters')
@@ -149,7 +148,7 @@ while repeat:
 
         # K-Means Clustering (largest set)
         print("Clustering using all available values and 2 clusters")
-        x = test_set.iloc[:,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]].values
+        x = test_set.iloc[:,[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]].values
         kmeans = KMeans(init='random', n_init=10, n_clusters = 2) #number of clusters being used
         y_kmeans = kmeans.fit_predict(x)
         print(y_kmeans)
@@ -177,6 +176,7 @@ while repeat:
             kmeans = KMeans(n_clusters = k).fit(x)
             labels = kmeans.labels_
             sil.append(silhouette_score(x, labels, metric = 'euclidean'))
+            print('Silhouette Score at %d clusters: %.3f' % (k,sil[k-2]))
 
         plt.plot(range(2, kmax+1), sil)
         plt.title('Silhouette Method')
