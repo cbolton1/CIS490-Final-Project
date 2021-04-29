@@ -224,7 +224,7 @@ while repeat:
                 agg = AgglomerativeClustering(n_clusters=k, linkage='single')
                 y = agg.fit_predict(x)
                 sil.append(silhouette_score(x, y, metric='euclidean'))
-
+                print('Silhouette Score at %d clusters: %.3f' % (k,sil[k-2]))
             plt.plot(range(2, kmax+1), sil)
             plt.title('Silhouette Method')
             plt.xlabel('No of clusters')
