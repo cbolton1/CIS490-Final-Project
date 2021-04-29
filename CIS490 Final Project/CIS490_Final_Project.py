@@ -10,6 +10,7 @@
 # To select a clustering method enter either 'k' or 'h' when prompted. After finishing, the program will offer the same prompt again.
 # To exit enter 'x' at the prompt.
 
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -19,6 +20,10 @@ from sklearn.metrics import silhouette_score
 import seaborn as sns
 from scipy.cluster.hierarchy import dendrogram
 from gap_statistic import OptimalK
+
+
+# Setting current directory as the working directory
+os.chdir(os.path.dirname(__file__))
 
 # Allow display of all columns for debugging
 pd.set_option('display.max_columns', None)
