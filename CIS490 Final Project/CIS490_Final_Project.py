@@ -198,7 +198,7 @@ while repeat:
     elif opt == "h":
         # Hierarchical testing - Agglomerative
 
-        # Method to draw dendogram - https://scikit-learn.org/stable/auto_examples/cluster/plot_agglomerative_dendrogram.html#sphx-glr-auto-examples-cluster-plot-agglomerative-dendrogram-py
+        # Method to draw dendogram - https://scikit-learn.org/stable/auto_examples/cluster/plot_agglomerative_dendrogram. html#sphx-glr-auto-examples-cluster-plot-agglomerative-dendrogram-py
 
         def plot_dendrogram(model, **kwargs):
             # Create linkage matrix and then plot the dendrogram
@@ -255,7 +255,7 @@ while repeat:
 
         # Plot kmeans results in scatterplot
         plt.figure(figsize=(10, 10))
-        agg = AgglomerativeClustering(n_clusters=5, linkage='single')
+        agg = AgglomerativeClustering(n_clusters=3, linkage='single')
         y_agg = agg.fit_predict(x)
         plt.scatter(x[:, 0], x[:, 1], s=20, marker='o', c=y_agg, cmap='rainbow')
         plt.show()
@@ -279,7 +279,7 @@ while repeat:
 
         # Plot kmeans results in scatterplot
         plt.figure(figsize=(10, 10))
-        agg = AgglomerativeClustering(n_clusters=5, linkage='single')
+        agg = AgglomerativeClustering(n_clusters=2, linkage='single')
         y_agg = agg.fit_predict(x)
         plt.scatter(x[:, 0], x[:, 1], s=20, marker='o', c=y_agg, cmap='rainbow')
         plt.show()
@@ -303,7 +303,7 @@ while repeat:
 
         # Plot kmeans results in scatterplot
         plt.figure(figsize=(10, 10))
-        agg = AgglomerativeClustering(n_clusters=5, linkage='single')
+        agg = AgglomerativeClustering(n_clusters=2, linkage='single')
         y_agg = agg.fit_predict(x)
         plt.scatter(x[:, 0], x[:, 1], s=20, marker='o', c=y_agg, cmap='rainbow')
         plt.show()
